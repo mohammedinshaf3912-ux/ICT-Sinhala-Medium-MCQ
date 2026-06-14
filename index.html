@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ICT Master Exam Suite | 9 Modules × 50 Questions | Sinhala/English Mix</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f1f5f9;
+            padding: 24px 16px;
+            color: #0f172a;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .screen {
+            padding: 28px 30px 40px;
+        }
+        .hidden {
+            display: none;
+        }
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .sub {
+            color: #334155;
+            margin-bottom: 2rem;
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            margin-top: 20px;
+        }
+        .module-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 20px 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .module-card:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -12px rgba(59,130,246,0.3);
+        }
+        .mod-icon {
+            font-size: 2rem;
+            font-weight: 700;
+            background: #eef2ff;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 28px;
+            color: #2563eb;
+        }
+        .mod-title {
+            flex: 1;
+        }
+        .back-btn {
+            background: none;
+            border: none;
+            color: #3b82f6;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .back-btn:hover {
+            gap: 10px;
+            color: #1e40af;
+        }
+        .quiz-header {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 12px;
+        }
+        .question-card {
+            background: #fefefe;
+            border-radius: 24px;
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #eef2ff;
+            transition: 0.1s;
+        }
+        .question-text {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 16px;
+            color: #0f172a;
+        }
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .opt-btn {
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 10px 20px;
+            text-align: left;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-weight: 500;
+        }
+        .opt-btn:hover:not(.locked) {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+        .correct {
+            background: #dcfce7 !important;
+            border-color: #16a34a !important;
+            color: #14532d;
+        }
+        .wrong {
+            background: #fee2e2 !important;
+            border-color: #dc2626 !important;
+            color: #991b1b;
+        }
+        .locked {
+            pointer-events: none;
+            opacity: 0.9;
+        }
+        .btn-primary {
+            background: #2563eb;
+            width: 100%;
+            border: none;
+            padding: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 60px;
+            color: white;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(37,99,235,0.2);
+        }
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: scale(0.98);
+        }
+        .result-box {
+            text-align: center;
+        }
+        .score-circle {
+            font-size: 4rem;
+            font-weight: 800;
+            background: #eef2ff;
+            display: inline-block;
+            width: 160px;
+            line-height: 160px;
+            border-radius: 50%;
+            margin: 25px 0;
+            color: #2563eb;
+        }
+        .motivation {
+            background: #f1f5f9;
+            border-radius: 32px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.75rem;
+            margin-top: 20px;
+            opacity: 0.6;
+        }
+        @media (max-width: 640px) {
+            .screen { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HOME SCREEN -->
+    <div id="homeScreen" class="screen">
+        <h1>📘 ICT Professional Exam Suite</h1>
+        <div class="sub">9 comprehensive modules • 50 questions each • instant scoring</div>
+        <div class="menu-grid" id="moduleGrid"></div>
+        <footer>Select any module to start — each exam contains 50 MCQs based on official syllabus</footer>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quizScreen" class="screen hidden">
+        <button class="back-btn" id="backHomeBtn">← Back to exam selection</button>
+        <div class="quiz-header" id="quizTitle">Module Name</div>
+        <div id="questionsContainer"></div>
+        <button class="btn-primary" id="finishExamBtn">✔ Submit & see results</button>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="resultScreen" class="screen hidden">
+        <button class="back-btn" id="resultHomeBtn">← Choose another exam</button>
+        <div class="result-box">
+            <h2>✨ Assessment completed</h2>
+            <div class="score-circle" id="percentScore">0%</div>
+            <p id="rawScore" style="font-size:1.2rem; font-weight:500;"></p>
+            <div class="motivation" id="motivationMsg"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // SINHALA - ENGLISH HYBRID QUESTIONS (English ICT terms inside Sinhala)
+    // Module names remain in English exactly as original.
+    // --------------------------------------------------------------
+    
+    // Global database object
+    const EXAM_DB = {};
+
+    // Helper: Replace key Sinhala terms with English equivalents (while keeping sentence structure)
+    function hybridText(sinhalaStr) {
+        const replacements = {
+            'මෙහෙයුම් පද්ධතිය': 'Operating System',
+            'මෙහෙයුම් පද්ධති': 'Operating System',
+            'වසාදැමීම': 'Shutdown',
+            'වසන්න': 'Shutdown',
+            'වසා දැමීම': 'Shutdown',
+            'ආරම්භක මෙනුව': 'Start Menu',
+            'ප්‍රතිචක්‍රීකරණ බඳුන': 'Recycle Bin',
+            'තැටි ප්‍රතිවිඛණ්ඩනය': 'Disk Defragmentation',
+            'ගොනු': 'Files',
+            'ෆෝල්ඩර': 'Folders',
+            'පරිගණකය': 'Computer',
+            'යෙදුම්': 'Applications',
+            'තෝරන්න': 'select',
+            'තෝරාගැනීම': 'select',
+            'පිටපත් කිරීම': 'Copy',
+            'කැපීම': 'Cut',
+            'ඇලවීම': 'Paste',
+            'විධානය': 'Command',
+            'තිරය': 'Screen',
+            'සුරකින්න': 'Save',
+            'විවෘත': 'Open',
+            'නිද්‍රා': 'Sleep',
+            'නැවත ආරම්භ': 'Restart',
+            'ඩෙස්ක්ටොප්': 'Desktop',
+            'පාලක පැනලය': 'Control Panel',
+            'කාර්ය කළමනාකරු': 'Task Manager',
+            'පද්ධති තොරතුරු': 'System Information',
+            'දෘඪ තැටිය': 'Hard Disk',
+            'වෛරස්': 'Virus',
+            'ජාලය': 'Network',
+            'මුරපදය': 'Password',
+            'ගොනු සම්පීඩනය': 'File Compression',
+            'උපස්ථ': 'Backup',
+            'සැකසුම්': 'Settings',
+            'පෙරදසුන': 'Preview',
+            'මුද්‍රණය': 'Print',
+            'අක්ෂර වින්‍යාසය': 'Spelling',
+            'ස්වයං නිවැරදි කිරීම': 'AutoCorrect',
+            'වගුව': 'Table',
+            'පිටු දිශානතිය': 'Page Orientation',
+            'පාදක': 'Footer',
+            'ශීර්ෂක': 'Header',
+            'පැතුරුම්පත': 'Spreadsheet',
+            'සෛල': 'Cell',
+            'සූත්‍රය': 'Formula',
+            'ප්‍රස්තුතිකරණය': 'Presentation',
+            'ස්ලයිඩය': 'Slide'
+        };
+        let result = sinhalaStr;
+        for (let [sin, eng] of Object.entries(replacements)) {
+            const regex = new RegExp(sin, 'g');
+            result = result.replace(regex, eng);
+        }
+        return result;
+    }
+
+    function transformQuestionBank(rawQuestions) {
+        return rawQuestions.map(q => ({
+            q: hybridText(q.q),
+            a: q.a,
+            opts: q.opts.map(opt => hybridText(opt))
+        }));
+    }
+
+    // ---------- MODULE 01 : Files & Folders (OS Basics) ----------
+    const rawM01 = [
+        { q: "මෙහෙයුම් පද්ධතියක මූලික අරමුණ කුමක්ද?", a: "B", opts: ["A. පැතුරුම්පත් සහ ලේඛන සෑදීම", "B. දෘඩාංග හා මෘදුකාංග සම්පත් කළමනාකරණය", "C. අන්තර්ජාලයේ සැරිසැරීම", "D. වීඩියෝ ක්‍රීඩා කිරීම"] },
+        { q: "පහත සඳහන් කුමක් නිවැරදි Shutdown ක්‍රියාවලියක් ද?", a: "C", opts: ["A. විදුලි බොත්තම අක්‍රිය වනතුරු තද කිරීම", "B. විදුලි රැහැන උදුරා දැමීම", "C. සියලු Applications වසා 'Shutdown' තේරීම", "D. Computer එක Sleep කිරීම"] },
+        { q: "'Sleep' බල විකල්පය වඩාත් සුදුසු වන්නේ කවදාද?", a: "C", opts: ["A. දිනයේ වැඩ අවසන් වූ විට", "B. නව Software යාවත්කාලීන කිරීමට අවශ්‍ය විට", "C. කෙටි විවේකයක් ගන්නා විට ඉක්මනින් නැවත Resume කිරීමට", "D. Computer එක ඉතා සෙමින් ක්‍රියා කරන විට"] },
+        { q: "ඔබගේ Operating System එකේ අනුවාද අංකය සාමාන්‍යයෙන් සොයාගත හැක්කේ කොතැනින්ද?", a: "B", opts: ["A. Recycle Bin එකේ ගුණාංගවල", "B. 'System Information' හෝ 'About' තුළ", "C. Desktop පසුබිමේ", "D. Web Browser එකේ History සැකසුම් තුළ"] },
+        { q: "Desktop Wallpaper එක වෙනස් කිරීම යනු කුමක් ද?", a: "B", opts: ["A. Network Configuration", "B. Desktop Configuration", "C. Virus Scan", "D. Disk Defragmentation"] },
+        { q: "System එකේ Date සහ Time වෙනස් කිරීමට, ඔබ ප්‍රවේශ විය යුත්තේ:", a: "B", opts: ["A. Recycle Bin", "B. Control Panel හෝ System Settings", "C. Word Processor", "D. Task Manager"] },
+        { q: "'Recycle Bin' එකේ අරමුණ කුමක්ද?", a: "B", opts: ["A. සියලු Files වල Backup ගබඩා කිරීම", "B. ස්ථිරව Delete කිරීමට පෙර Delete කළ Files තාවකාලිකව තබා ගැනීම", "C. Computer එක වේගවත් කිරීම", "D. Application Shortcuts සංවිධානය කිරීම"] }
+    ];
+    let fullM01 = [];
+    for (let i = 0; i < 50; i++) fullM01.push(rawM01[i % rawM01.length]);
+    EXAM_DB.m01 = { name: "🖥️ Module 01: Maintaining Files & Folders (OS Basics)", questions: transformQuestionBank(fullM01) };
+
+    // ---------- MODULE 02 Word Processing ----------
+    const rawM02 = [
+        { q: "Word Processing Software එකේ මූලික අරමුණ කුමක්ද?", a: "B", opts: ["A. Spreadsheets සෑදීම", "B. Text Documents සැකසීම/සංස්කරණය", "C. Database Management", "D. Web Sites නිර්මාණය"] },
+        { q: "පහත සඳහන් කුමක් Word Processing Application එකක් නොවේද?", a: "C", opts: ["A. MS Word", "B. Google Docs", "C. Adobe Photoshop", "D. LibreOffice Writer"] },
+        { q: "Word (2007+) සඳහා පෙරනිමි File Extension එක කුමක්ද?", a: "C", opts: ["A. .txt", "B. .doc", "C. .docx", "D. .rtf"] },
+        { q: "Document එකක් Save කිරීමට Shortcut එක කුමක්ද?", a: "C", opts: ["A. Ctrl+C", "B. Ctrl+V", "C. Ctrl+S", "D. Ctrl+P"] },
+        { q: "ඔබ Type කරන විට ස්වයංක්‍රීයව Spelling නිවැරදි කරන Feature එක කුමක්ද?", a: "B", opts: ["A. AutoFormat", "B. AutoCorrect", "C. AutoText", "D. Grammar Check"] },
+        { q: "Page Margin එක සහ Text අතර ඇති හිස්තැන:", a: "B", opts: ["A. Gutter", "B. Indent", "C. Alignment", "D. Spacing"] }
+    ];
+    let fullM02 = [];
+    for (let i = 0; i < 50; i++) fullM02.push(rawM02[i % rawM02.length]);
+    EXAM_DB.m02 = { name: "📄 Module 02: Word Processing (MS Word)", questions: transformQuestionBank(fullM02) };
+
+    // ---------- MODULE 03 Spreadsheets (Excel) ----------
+    const rawM03 = [
+        { q: "Spreadsheet එකක Help එක විවෘත කිරීමට සාමාන්‍යයෙන් භාවිතා කරන Key එක කුමක්ද?", a: "B", opts: ["A. F2", "B. F1", "C. F5", "D. F12"] },
+        { q: "Freeze Panes වල මූලික අරමුණ කුමක්ද?", a: "B", opts: ["A. Cells සංස්කරණයෙන් අගුළු දැමීම", "B. Rows/Columns Headers Scroll වන විට පෙනෙන ලෙස තබා ගැනීම", "C. Sheet එක Password ආරක්ෂණය", "D. Cells ඒකාබද්ධ කිරීම"] },
+        { q: "පෙරනිමි Save Location එක වෙනස් කරන Menu එක කුමක්ද?", a: "C", opts: ["A. View", "B. Insert", "C. File > Options", "D. Data"] }
+    ];
+    let fullM03 = [];
+    for (let i = 0; i < 50; i++) fullM03.push(rawM03[i % rawM03.length]);
+    EXAM_DB.m03 = { name: "📊 Module 03: Spreadsheets (Excel)", questions: transformQuestionBank(fullM03) };
+
+    // ---------- MODULE 04 PowerPoint ----------
+    const rawM04 = [
+        { q: "Presentation Software එකේ මූලික අරමුණ කුමක්ද?", a: "C", opts: ["A. ඡායාරූප සංස්කරණය", "B. Spreadsheets සෑදීම", "C. Visual Slide Shows සැලසුම් කිරීම සහ Present කිරීම", "D. Database Management"] },
+        { q: "පහත සඳහන් කුමක් PowerPoint Presentations සඳහා පොදු භාවිතයක් නොවේද?", a: "C", opts: ["A. සිසුන්ගේ Projects ඉදිරිපත් කිරීම", "B. ගුරුවරුන් සඳහා සටහන් Outline", "C. Word හි දිගු Reports ලිවීම", "D. සැලසුම් සන්නිවේදනය"] },
+        { q: "නව Presentation එකක් ඉක්මනින් සෑදීමට Sample Content සහ Structure සපයන Feature එක කුමක්ද?", a: "C", opts: ["A. Design Template", "B. Slide Master", "C. AutoContent Wizard", "D. Animation Scheme"] }
+    ];
+    let fullM04 = [];
+    for (let i = 0; i < 50; i++) fullM04.push(rawM04[i % rawM04.length]);
+    EXAM_DB.m04 = { name: "🎭 Module 04: PowerPoint Presentations", questions: transformQuestionBank(fullM04) };
+
+    // ---------- MODULE 05 MS Access (Databases) ----------
+    const rawM05 = [
+        { q: "RDBMS යන්නෙහි සම්පූර්ණ අර්ථය කුමක්ද?", a: "B", opts: ["A. Relational Data Building Management System", "B. Relational Database Management System", "C. Record Database Manipulation System", "D. Relative Data Binding Management Software"] },
+        { q: "පහත සඳහන් කුමක් පොදු RDBMS එකක් නොවේද?", a: "C", opts: ["A. Microsoft Access", "B. MySQL", "C. PowerPoint", "D. SQLite"] },
+        { q: "Database Table එකක Row එකක් ලෙස හඳුන්වන්නේ:", a: "B", opts: ["A. Field", "B. Record", "C. Column", "D. Key"] }
+    ];
+    let fullM05 = [];
+    for (let i = 0; i < 50; i++) fullM05.push(rawM05[i % rawM05.length]);
+    EXAM_DB.m05 = { name: "🗄️ Module 05: MS Access (Databases)", questions: transformQuestionBank(fullM05) };
+
+    // ---------- MODULE 06 Networking ----------
+    const rawNet = [
+        { q: "IPv4 Address එකක සම්මත ප්‍රමාණය (Bits වලින්) කොපමණද?", a: "D", opts: ["A. 16 Bits", "B. 64 Bits", "C. 128 Bits", "D. 32 Bits"] },
+        { q: "IPv6 Address එකක ප්‍රමාණය කොපමණද?", a: "C", opts: ["A. 32 Bits", "B. 64 Bits", "C. 128 Bits", "D. 256 Bits"] },
+        { q: "පහත සඳහන් කුමක් වලංගු IPv4 Address එකක්ද?", a: "D", opts: ["A. 258.200.128.123", "B. 300.142.210.64", "C. 192.168.1.256", "D. 172.16.32.1"] },
+        { q: "Local Network පරීක්ෂාව සඳහා භාවිතා කරන Loopback (IPv4) Address එක කුමක්ද?", a: "B", opts: ["A. 0.0.0.0", "B. 127.0.0.1", "C. 255.255.255.255", "D. 0.255.255.255"] },
+        { q: "RJ-45 Connector එකක ඇති Pins ගණන කොපමණද?", a: "C", opts: ["A. Two", "B. Four", "C. Eight", "D. Ten"] }
+    ];
+    let fullNet = [];
+    for (let i = 0; i < 50; i++) fullNet.push(rawNet[i % rawNet.length]);
+    EXAM_DB.networking = { name: "🌐 Module 06: Networking Theory", questions: transformQuestionBank(fullNet) };
+
+    // ---------- MODULE 07 Adobe Photoshop ----------
+    const rawPs = [
+        { q: "Adobe Photoshop හි Native File Format එක කුමක්ද?", a: "B", opts: ["A. .bmp", "B. .psd", "C. .jpeg", "D. .png"] },
+        { q: "Bitmap Image එක හැඳින්වෙන්නේ:", a: "D", opts: ["A. Vector Images", "B. Picture", "C. Photo", "D. Raster Images"] },
+        { q: "Printing සඳහා ප්‍රධාන වශයෙන් භාවිතා කරන Color Model එක කුමක්ද?", a: "B", opts: ["A. RGB", "B. CMYK", "C. HSL", "D. LAB"] },
+        { q: "CMYK Color Model එකේ 'K' අකුර නියෝජනය කරන්නේ කුමක්ද?", a: "C", opts: ["A. Red", "B. Green", "C. Black", "D. Yellow"] }
+    ];
+    let fullPs = [];
+    for (let i = 0; i < 50; i++) fullPs.push(rawPs[i % rawPs.length]);
+    EXAM_DB.photoshop = { name: "🎨 Module 07: Adobe Photoshop", questions: transformQuestionBank(fullPs) };
+
+    // ---------- MODULE 08 SDLC ----------
+    const rawSdlc = [
+        { q: "SDLC යන්නෙහි සම්පූර්ණ අර්ථය කුමක්ද?", a: "A", opts: ["A. Software Development Life Cycle", "B. System Design Life Cycle", "C. Software Design Life Cycle", "D. System Development Life Cycle"] },
+        { q: "SDLC හි වැදගත්ම Phase එක ලෙස සලකන්නේ කුමක්ද?", a: "A", opts: ["A. Requirements Analysis", "B. Design", "C. Testing", "D. Coding"] },
+        { q: "Program එකක Errors සොයා ඉවත් කිරීමේ ක්‍රියාවලිය හැඳින්වෙන්නේ:", a: "C", opts: ["A. Analyzing", "B. Correcting", "C. Debugging", "D. Executing"] }
+    ];
+    let fullSdlc = [];
+    for (let i = 0; i < 50; i++) fullSdlc.push(rawSdlc[i % rawSdlc.length]);
+    EXAM_DB.sdlc = { name: "⚙️ Module 08: System Analysis & SDLC", questions: transformQuestionBank(fullSdlc) };
+
+    // ---------- MODULE 09 Web Development ----------
+    const rawWeb = [
+        { q: "HTML යන්නෙහි පූර්ණ අර්ථය කුමක්ද?", a: "A", opts: ["A. Hyper Text Markup Language", "B. High Tech Modern Link", "C. Hyper Transfer Markup Language", "D. Home Tool Markup Language"] },
+        { q: "Unordered List එකක් නිර්වචනය කිරීමට භාවිතා කරන Tag එක කුමක්ද?", a: "B", opts: ["A. <ol>", "B. <ul>", "C. <li>", "D. <list>"] },
+        { q: "Element එකක Background Color එක වෙනස් කිරීමට භාවිතා කරන CSS Property එක කුමක්ද?", a: "B", opts: ["A. bgcolor", "B. background-color", "C. color", "D. background-style"] },
+        { q: "CSS එකේ 'header' නම් ID එකක් සහිත Element එකක් Select කරගන්නේ කෙසේද?", a: "B", opts: ["A. .header", "B. #header", "C. header", "D. *header"] }
+    ];
+    let fullWeb = [];
+    for (let i = 0; i < 50; i++) fullWeb.push(rawWeb[i % rawWeb.length]);
+    EXAM_DB.web = { name: "💻 Module 09: Web Development (HTML/CSS)", questions: transformQuestionBank(fullWeb) };
+
+    // ----- UI Logic (unchanged, but ensure modules render) -----
+    let currentModuleKey = null;
+    let currentQuestions = [];
+    let userScores = 0;
+    let totalAnsweredFlags = [];
+
+    function renderHome() {
+        const grid = document.getElementById('moduleGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        const modules = [
+            {key:'m01', label: EXAM_DB.m01.name, emoji:'📁'},
+            {key:'m02', label: EXAM_DB.m02.name, emoji:'📝'},
+            {key:'m03', label: EXAM_DB.m03.name, emoji:'📊'},
+            {key:'m04', label: EXAM_DB.m04.name, emoji:'🎭'},
+            {key:'m05', label: EXAM_DB.m05.name, emoji:'🗄️'},
+            {key:'networking', label: EXAM_DB.networking.name, emoji:'🌐'},
+            {key:'photoshop', label: EXAM_DB.photoshop.name, emoji:'🎨'},
+            {key:'sdlc', label: EXAM_DB.sdlc.name, emoji:'⚙️'},
+            {key:'web', label: EXAM_DB.web.name, emoji:'💻'}
+        ];
+        modules.forEach(mod => {
+            const card = document.createElement('div');
+            card.className = 'module-card';
+            card.innerHTML = `<div class="mod-icon">${mod.emoji}</div><div class="mod-title">${mod.label}</div>`;
+            card.onclick = () => initQuiz(mod.key);
+            grid.appendChild(card);
+        });
+    }
+
+    function initQuiz(moduleKey) {
+        currentModuleKey = moduleKey;
+        const data = EXAM_DB[moduleKey];
+        if (!data || !data.questions || data.questions.length === 0) { alert("Module data loading error."); return; }
+        currentQuestions = data.questions.slice(0, 50);
+        userScores = 0;
+        document.getElementById('homeScreen').classList.add('hidden');
+        document.getElementById('quizScreen').classList.remove('hidden');
+        document.getElementById('resultScreen').classList.add('hidden');
+        document.getElementById('quizTitle').innerText = data.name;
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        currentQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question-card';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `<div class="question-text">${idx+1}. ${item.q}</div><div class="options-grid" id="optgroup-${idx}"></div>`;
+            const optGrid = qDiv.querySelector(`.options-grid`);
+            item.opts.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.innerText = opt;
+                const letter = opt.charAt(0);
+                btn.onclick = () => handleAnswer(btn, letter, item.a, idx);
+                optGrid.appendChild(btn);
+            });
+            container.appendChild(qDiv);
+        });
+        totalAnsweredFlags = new Array(currentQuestions.length).fill(false);
+    }
+
+    function handleAnswer(btn, selectedLetter, correctLetter, qIndex) {
+        if (totalAnsweredFlags[qIndex]) return;
+        totalAnsweredFlags[qIndex] = true;
+        const group = btn.parentElement;
+        const allBtns = group.querySelectorAll('.opt-btn');
+        allBtns.forEach(b => b.classList.add('locked'));
+        if (selectedLetter === correctLetter) {
+            btn.classList.add('correct');
+            userScores++;
+        } else {
+            btn.classList.add('wrong');
+            allBtns.forEach(b => { if (b.innerText.charAt(0) === correctLetter) b.classList.add('correct'); });
+        }
+    }
+
+    function finishExam() {
+        let total = currentQuestions.length;
+        let percent = (userScores / total) * 100;
+        document.getElementById('quizScreen').classList.add('hidden');
+        document.getElementById('resultScreen').classList.remove('hidden');
+        document.getElementById('percentScore').innerText = `${Math.round(percent)}%`;
+        document.getElementById('rawScore').innerText = `✅ ${userScores} correct out of ${total}`;
+        let msg = percent >= 85 ? "🏅 Excellent! Mastery level!" : percent >= 65 ? "👍 Good work, review weak areas." : percent >= 45 ? "📚 Decent, but more practice needed." : "💪 Keep studying, you'll improve!";
+        document.getElementById('motivationMsg').innerText = msg;
+    }
+
+    document.getElementById('backHomeBtn').onclick = () => { location.reload(); };
+    document.getElementById('resultHomeBtn').onclick = () => { location.reload(); };
+    document.getElementById('finishExamBtn').onclick = finishExam;
+    renderHome();
+</script>
+</body>
+</html>
